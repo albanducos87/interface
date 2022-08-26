@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="fr">
+  <title>Boavizta Interface</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/boavizta-logo.ico') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</head>
+<body>
+
+<div class="w3-top header">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="/" class="w3-bar-item w3-button"><b>Sopra Steria</b></a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="/" id="home" class="btn active w3-bar-item w3-button">Accueil</a>
+      <a href="/all_devices" id="all" class="btn w3-bar-item w3-button">Outils enregistrés</a>
+      <a href="/my_instances" id="new" class="btn w3-bar-item w3-button">Mes instances</a>
+    </div>
+  </div>
+</div>
+
+{% block content %} {% endblock %}
+
+<div class="footer">
+  <p>Sopra Steria - Tous droits réservés ®</p>
+  <p>Pour plus d'informations, consultez le <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur" target="_blank"> site de Boavizta</a></p>
+  <a href="https://www.soprasteria.com/fr" target="_blank"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo sopra" width="10%"></a>
+  <a href="https://boavizta.org/" target="_blank"><img src="{{ url_for('static', filename='img/logo2.png') }}" alt="logo boavizta" width="2%" style="padding-left: 10px;"></a>
+</div>
+</body>
+
+</html>

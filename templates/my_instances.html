@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<body onload="changeActive('new')">
+    <div class="body">
+        <br><br><br>
+        <div class="w3-container w3-padding-32">
+            <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Les instances utilisées</h3>
+            <h4>Voici les éléments utilisés par votre configuration :</h4>
+            {% for i in listInstances %}
+                <p>{{i}}</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+{% endblock %}

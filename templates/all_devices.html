@@ -1,0 +1,250 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<body onload="changeActive('all')">
+  <div class="body">
+      <br><br><br><br><br>
+      {% for c in categories %}
+        <a href="/devices_by_cat/{{c}}" id="home" class="btn active w3-bar-item w3-button">{{c}}</a>
+      {% endfor %}
+      {% if category_selected %}
+        <div class="w3-container w3-padding-32">
+          <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Table des outils enregistrés dans la catégorie : <strong>{{cat_name}}</strong></h3>
+          <table>
+              <tr>
+                <th colspan="3">GWP (Global Warming Potential)</th>
+                <th colspan="3">PE (Primary Energy)</th>
+                <th colspan="3">ADP (Abiotic Depletion Potential)</th>
+              </tr>
+              <tr>
+                <th>Manufacture</th>
+                <th>Use</th>
+                <th>Unit</th>
+                <th>Manufacture</th>
+                <th>Use</th>
+                <th>Unit</th>
+                <th>Manufacture</th>
+                <th>Use</th>
+                <th>Unit</th>
+              </tr>
+              {% for i in range(0, size) %}
+                <tr>
+                  <td>{{array_details[i]["gwp"]["manufacture"]}}</td>
+                  <td>{{array_details[i]["gwp"]["use"]}}</td>
+                  <td>{{array_details[i]["gwp"]["unit"]}}</td>
+                  <td>{{array_details[i]["pe"]["manufacture"]}}</td>
+                  <td>{{array_details[i]["pe"]["use"]}}</td>
+                  <td>{{array_details[i]["pe"]["unit"]}}</td>
+                  <td>{{array_details[i]["adp"]["manufacture"]}}</td>
+                  <td>{{array_details[i]["adp"]["use"]}}</td>
+                  <td>{{array_details[i]["adp"]["unit"]}}</td>
+                  <td><strong>{{array_devices[i]}}</strong></td>
+                  <td><a href="/delete_device/{{array_devices[i]}}"><i class="fa fa-trash"></i></a></td>
+                </tr>
+              {% endfor %}
+            </table>
+
+            <br>
+            <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Formules appliquées</h3>
+            <p>cpu<sub>manuf <sub>criteria</sub></sub> = cpu<sub>units</sub> x ((cpu<sub>core_units</sub> x cpu<sub>die_size</sub> + 0.491) x cpu<sub>manuf_die<sub>criteria</sub></sub> + cpu<sub>manuf_base<sub>criteria</sub></sub>)</p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=techniques%20des%20composants.-,Cas%20du%20CPU,-Pour%20obtenir%20la">Plus d'informations</a><br><br>
+            <p>ram<sub>manuf <sub>criteria</sub></sub> = ram<sub>units</sub> x ((ram<sub>size</sub> / ram<sub>density</sub>) x ram<sub>manuf_die<sub>criteria</sub></sub> + ram<sub>manuf_base<sub>criteria</sub></sub>)</p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=produites%20depuis%202014.-,Cas%20de%20la%20RAM,-Pour%20la%20RAM">Plus d'informations</a><br><br>
+            <p>ssd<sub>manuf <sub>criteria</sub></sub> = ssd<sub>units</sub> x ((ssd<sub>size</sub> / ssd<sub>density</sub>) x ssd<sub>manuf_die<sub>criteria</sub></sub> + ssd<sub>manuf_base<sub>criteria</sub></sub>)</p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=1.13-,Cas%20du%20SSD,-TheMemoryGuy%20pr%C3%A9sente%20une">Plus d'informations</a><br><br>
+            <p>hdd<sub>manuf<sub>criteria</sub></sub> = hdd<sub>units</sub> x hdd<sub>manuf_unit<sub>criteria</sub></sub></p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=de%20chaque%20constructeur)-,Pour%20le%20HDD%20%3A,-hddmanufcriteria">Plus d'informations</a><br><br>
+            <p>psu<sub>manuf<sub>criteria</sub></sub> = psu<sub>units</sub> x psu<sub>unit_weight</sub> x psu <sub>manuf_weight<sub>criteria</sub></sub></p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=Pour%20l%27alimentation%20%C3%A9lectrique%20%3Ats.-,Cas%20du%20CPU,-Pour%20obtenir%20la">Plus d'informations</a><br><br>
+            <p>enclosure<sub>manuf<sub>criteria</sub></sub> = rack<sub>manuf<sub>criteria</sub></sub> -> Si serveur rack</p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=352.00-,Pour%20le%20chassis%20%3A,-Dans%20le%20cas">Plus d'informations</a><br><br>
+            <p>enclosure<sub>manuf<sub>criteria</sub></sub> = blade<sub>manuf<sub>criteria</sub></sub> + blade_enclosure<sub>manuf<sub>criteria</sub></sub> /16 -> Si serveur blade</p>
+            <a href="https://boavizta.org/blog/empreinte-de-la-fabrication-d-un-serveur#:~:text=352.00-,Pour%20le%20chassis%20%3A,-Dans%20le%20cas">Plus d'informations</a>
+            <br>
+
+            <h3 class="w3-border-bottom w3-border-top w3-border-light-grey w3-padding-16">Impact GWP (Global Warming Potential)</h3>
+            <div style="position: relative; float:left; height:15vh; width:40vw">
+              <p>Le Potentiel de Réchauffement Global (PRG ou GWP en anglais) est le pouvoir réchauffant d'un gaz, rapporté au pouvoir réchauffant de la même masse de dioxyde de carbonne. Cet outil donne le plus souventdes estimations correctes à condition qu'il soit utilisé conformément aux hypothèses qui l'accompagnent.</p>
+              <p>Calcul de l'Impact GWP :</p>
+              <p><strong>server<sub>manuf<sub>gwp</sub></sub> </strong>= cpu<sub>manuf<sub>gwp</sub></sub> + ram<sub>manuf<sub>gwp</sub></sub> + ssd<sub>manuf<sub>gwp</sub></sub> + hdd<sub>manuf<sub>gwp</sub></sub> + motherboard<sub>manuf<sub>gwp</sub></sub> + psu<sub>manuf<sub>gwp</sub></sub> + enclosure<sub>manuf<sub>gwp</sub></sub> + assembly<sub>manuf<sub>gwp</sub></sub></p>
+            </div>
+            <div style="position: relative; float:right; height:20vh; width:50vw">
+              <canvas id="gwp_impact" ></canvas>
+            </div>
+
+            <h3 class="w3-border-bottom w3-border-top w3-border-light-grey w3-padding-16" style="margin-top:30%;">Impact PE (Primary Energy)</h3>
+            <div style="position: relative; float: right; height:15vh; width:40vw">
+              <p>L'impact PE (Primary Energy) montre la consommation de ressoures énergétiques, renouvelables et non renouvelables, de l'outil sélectionné. Cet impact est exprimé en MJ (mégajoules)</p>
+              <p>Calcul de l'impact PE :</p>
+              <p><strong>server<sub>manuf<sub>pe</sub></sub> </strong>= cpu<sub>manuf<sub>pe</sub></sub> + ram<sub>manuf<sub>pe</sub></sub> + ssd<sub>manuf<sub>pe</sub></sub> + hdd<sub>manuf<sub>pe</sub></sub> + motherboard<sub>manuf<sub>pe</sub></sub> + psu<sub>manuf<sub>pe</sub></sub> + enclosure<sub>manuf<sub>pe</sub></sub> + assembly<sub>manuf<sub>pe</sub></sub></p>
+            </div>
+            <div style="position: relative; height:20vh; width:50vw">
+              <canvas id="pe_impact" ></canvas>
+            </div>
+
+            <h3 class="w3-border-bottom w3-border-top w3-border-light-grey w3-padding-16" style="position: relative; margin-top:20%;">Impact ADP (Abiotic Depletion Potential)</h3>
+            <div style="position: relative; float:left; height:50vh; width:40vw">
+              <p>ADP (Abiotic Depletion Potential) évalue l'utilisation de minéraux et de matières premières fossiles. L'expression "ressources abiotiques" désigne des ressources non vivantes telles que le sol, l'eau, l'iar et les minéraux. Cet indicateur est exprimé en kg d'équivalents d'antimoine (kgSbeq)</p>
+              <p>Calcul de l'impact ADP :</p>
+              <p><strong>server<sub>manuf<sub>adp</sub></sub> </strong>= cpu<sub>manuf<sub>adp</sub></sub> + ram<sub>manuf<sub>adp</sub></sub> + ssd<sub>manuf<sub>adp</sub></sub> + hdd<sub>manuf<sub>adp</sub></sub> + motherboard<sub>manuf<sub>adp</sub></sub> + psu<sub>manuf<sub>adp</sub></sub> + enclosure<sub>manuf<sub>adp</sub></sub> + assembly<sub>manuf<sub>adp</sub></sub></p>
+            </div>
+            <div style="position: relative; float:right; height:20vh; width:50vw">
+              <canvas id="adp_impact" ></canvas>
+            </div>
+        </div>
+      {% endif %}
+  </div>
+</body>
+<script>
+
+  function formatFlaskArray(stringDatas, type) {
+    let datas = stringDatas.replace('[', '');
+    datas = datas.replace(']', '');
+    datas = datas.split(', ');
+
+    for (let i = 0; i < datas.length; i++){
+      if (type !== "string") {
+        datas[i] = parseFloat(datas[i]);
+      }
+      
+    }
+
+    return datas;
+  }
+
+  function formatArrayColors(colors) {
+    colorsTab = [];
+    colorsRGBA = [];
+    colors = colors.split('[[');
+    colors = colors[1];
+    colors = "["+colors;
+    
+    colors = colors.split(']]');
+    colors = colors[0];
+    colors = colors+"]";
+    let i = 0;
+    let cpt = 0;
+    do {
+        str = "";
+        while(colors[i] != "]") {
+            str += colors[i];
+            i++;
+        }
+        str += ")";
+        str = str.replace("[", "(");
+        console.log(str);
+        i=i+3;
+        colorsRGBA[cpt] = "rgba"+str;
+        cpt++;
+    } while (i < colors.length);
+    return colorsRGBA;
+  }
+
+  const labels = formatFlaskArray('{{array_devices}}', "string");
+  for (let i = 0; i < labels.length; i++)  {
+    labels[i] = labels[i].replace("&#39;", '');
+    labels[i] = labels[i].replace("&#39;", '');
+  }
+
+  const colors = formatArrayColors('{{colors}}');
+
+  //FOR GWP IMPACT GRAPH
+  const datas_gwp = formatFlaskArray('{{gwp_details}}', "float");
+  
+  const data_gwp = {
+    labels: labels,
+    datasets: [{
+      axis: 'y',
+      label: 'Impact GWP (Global Warming Potential)',
+      data: datas_gwp,
+      fill: true,
+      backgroundColor: colors,
+      borderColor: colors,
+      borderWidth: 1
+    }]
+  };
+
+  const config_gwp = {
+    type: 'bar',
+    data: data_gwp,
+    options: {
+      indexAxis: 'y'
+    }
+  };
+
+  const gwp_impact = new Chart(
+    document.getElementById('gwp_impact'),
+    config_gwp
+  );
+
+  //FOR PE IMPACT GRAPH
+  const datas_pe = formatFlaskArray('{{pe_details}}', "float");
+  
+  const data_pe = {
+    labels: labels,
+    datasets: [{
+      axis: 'y',
+      label: 'Impact PE (Primary Energy)',
+      data: datas_pe,
+      fill: true,
+      backgroundColor: colors,
+      borderColor: colors,
+      borderWidth: 1
+    }]
+  };
+
+  const config_pe = {
+    type: 'bar',
+    data: data_pe,
+    options: {
+      indexAxis: 'y'
+    }
+  };
+
+  const pe_impact = new Chart(
+    document.getElementById('pe_impact'),
+    config_pe
+  );
+
+  //FOR ADP IMPACT GRAPH
+  const datas_adp = formatFlaskArray('{{adp_details}}', "float");
+  
+  const data_adp = {
+    labels: labels,
+    datasets: [{
+      axis: 'y',
+      label: 'Impact ADP (Abiotic Depletion Potential)',
+      data: datas_adp,
+      fill: true,
+      backgroundColor: colors,
+      borderColor: colors,
+      borderWidth: 1
+    }]
+  };
+
+  const config_adp = {
+    type: 'bar',
+    data: data_adp,
+    options: {
+      indexAxis: 'y'
+    }
+  };
+
+  const adp_impact = new Chart(
+    document.getElementById('adp_impact'),
+    config_adp
+  );
+
+
+
+</script>
+
+<script>
+  
+</script>
+
+
+
+{% endblock %}
+

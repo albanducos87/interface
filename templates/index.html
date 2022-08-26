@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+  <div class="body">
+    <br><br><br> 
+    <!-- About Section -->
+    <div class="w3-container w3-padding-32" id="about">
+      <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Qu'est-ce que Boavizta ?</h3>
+      <p>Les membres du groupe de travail Boavizta reconnaissent l'importance des impacts environnementaux et humains du secteur du numérique et la nécessité d'agir pour limiter ces impacts au plus vite, en particulier au regard de la croissance extrêmement rapide des équipements et des usages. Ils se donnent par conséquent pour objectif d'élaborer des solutions permettant à toute organisation de piloter et réduire l'impact environnemental et social de son utilisation du numérique.
+      </p>
+
+      <p>
+        Les membres du groupe de travail Boavizta souhaitent que d'ici à quelques années, toutes les organisations aient mis en place un système de pilotage et de réduction des impacts environnementaux et sociaux de leur empreinte numérique, notamment en matière d'émissions de GES et d'exploitation des ressources naturelles non renouvelables.
+      </p>
+      <p>
+        A cet effet, ils se donnent notamment pour mission :
+        <ul>
+          <li>de favoriser le partage de données, méthodologies, outils non confidentiels concernant la mesure et le pilotage des impacts environnementaux des systèmes d'informations</li>
+          <li>de fédérer et mettre en relation les acteurs de l’écosystème (entreprises privées, milieu académique, associations…) autour de la mesure et la réduction des impacts</li>
+          <li>de contribuer à développer des données, méthodologies et outils de référence ouverts et communs concernant le pilotage de ces impacts</li>
+          <li>d'aider les membres dans la mise en œuvre opérationnelle de démarches de mesure et de pilotage de ces impacts.</li>
+        </ul>
+      </p>
+    
+      <select name="select_model" id="select_model" onchange="getConso()">
+        {% if not is_selected %}
+          <option value="reset">-- Veuillez choisir un outil --</option>
+        {% else %}
+          <option value={{selected_model_name}}>{{selected_model_name}}</option>
+        {% endif %}
+        {% for i in contenu %}
+          <option value={{i}}>{{i}}</option>
+        {% endfor %}
+
+        {% if is_selected %}
+          <option value="reset">-- Veuillez choisir un outil --</option>
+        {% endif %}
+
+        {% if infoConso %}
+          {{infoConso["gwp"]["manufacture"]}}
+        {% endif %}
+      </select>
+    
+      {% if infoConso %}
+        <h3><strong>Outils sélectionné : </strong> {{selected_model_name}}</h3>
+        <table>
+          <tr>
+            <th colspan="3">GWP (Global Warming Potential)</th>
+            <th colspan="3">PE (Primary Energy)</th>
+            <th colspan="3">ADP (Abiotic Depletion Potential)</th>
+          </tr>
+          <tr>
+            <th>Manufacture</th>
+            <th>Use</th>
+            <th>Unit</th>
+            <th>Manufacture</th>
+            <th>Use</th>
+            <th>Unit</th>
+            <th>Manufacture</th>
+            <th>Use</th>
+            <th>Unit</th>
+          </tr>
+          <tr>
+            <td>{{infoConso["gwp"]["manufacture"]}}</td>
+            <td>{{infoConso["gwp"]["use"]}}</td>
+            <td>{{infoConso["gwp"]["unit"]}}</td>
+            <td>{{infoConso["pe"]["manufacture"]}}</td>
+            <td>{{infoConso["pe"]["use"]}}</td>
+            <td>{{infoConso["pe"]["unit"]}}</td>
+            <td>{{infoConso["adp"]["manufacture"]}}</td>
+            <td>{{infoConso["adp"]["use"]}}</td>
+            <td>{{infoConso["adp"]["unit"]}}</td>
+          </tr>
+        </table>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block conso %} {% endblock %}
